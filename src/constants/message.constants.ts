@@ -3,6 +3,11 @@ export const ERROR_MSGS = {
   BadRequest: 'Missing required request headers or parameters',
   InternalServerError: 'Server encountered an unexpected condition',
   MongoDBError: 'MongoDBError',
+  NotAvailable: 'not available',
+  InvalidBookId: 'Book id not available',
+  UnabletoCreate: 'Unable to create',
+  Unabletoupdate: 'Unable to update',
+  UnabletoDelete: 'Unable to delete',
 };
 
 export const SUCCESS_MSGS = {

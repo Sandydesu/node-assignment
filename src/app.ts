@@ -4,7 +4,8 @@ import * as bodyParser from 'body-parser';
 import { DBService } from './services';
 
 import routes from './api-routes';
-import { logger } from './helper/log4j';
+import { logger, HttpHandler } from './helper';
+
 export default class App {
   app: Express;
   port = process.env.PORT || 3000;
@@ -22,6 +23,10 @@ export default class App {
   }
 
   routes(routes: Router): void {
+    this.app.use((req, res, next) => {
+      HttpHandler.log(req);
+      next();
+    });
     this.app.use(routes);
   }
 
