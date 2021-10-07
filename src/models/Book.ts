@@ -24,6 +24,23 @@ class BookModel {
     const filter = { _id: id };
     return await BookSchemaModel.findOneAndDelete(filter);
   }
+
+  async getReviewsByBook(id: string): Promise<IBook> {
+    const filter = { _id: id };
+    return await BookSchemaModel.findOne(filter, { reviews: 1, _id: 0 });
+  }
+
+  async updateReview(book_id: string, review_id: string): Promise<IBook> {
+    const filter = { _id: book_id };
+    const update = { $push: { reviews: review_id } };
+    return await BookSchemaModel.findOneAndUpdate(filter, update);
+  }
+
+  async deleteReview(book_id: string, review_id: string): Promise<IBook> {
+    const filter = { _id: book_id };
+    const update = { $pull: { reviews: review_id } };
+    return await BookSchemaModel.findOneAndUpdate(filter, update);
+  }
 }
 
 export default new BookModel();

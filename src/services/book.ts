@@ -28,7 +28,7 @@ class BookService {
 
           const reviews = await ReviewModel.getReviews(
             { _id: { $in: book.reviews } },
-            { review_id: '$_id', _id: 0, reviwer: 1, message: 1 },
+            { review_id: '$_id', _id: 0, reviewer: 1, message: 1 },
           );
 
           const publisher = await PublisherModel.getPublisher(book.publisher, {
@@ -66,7 +66,7 @@ class BookService {
       };
       const reviews = await ReviewModel.getReviews(
         { _id: { $in: book.reviews } },
-        { review_id: '$_id', _id: 0, reviwer: 1, message: 1 },
+        { review_id: '$_id', _id: 0, reviewer: 1, message: 1 },
       );
 
       const publisher = await PublisherModel.getPublisher(book.publisher, {

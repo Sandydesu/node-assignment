@@ -15,7 +15,7 @@
   "nodemonConfig": {
     "ignore": [
       "test/*",
-      "dist/*"
+      "src/*"
     ],
     "delay": 2500
   },

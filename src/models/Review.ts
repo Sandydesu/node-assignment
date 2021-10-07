@@ -17,6 +17,17 @@ class ReviewModel {
   async createReviews(reviews: IReview[]): Promise<IReview[]> {
     return await ReviewSchemaModel.insertMany(reviews);
   }
+
+  async updateReview(review_id: string, review: IReview): Promise<IReview> {
+    const filter = { _id: review_id };
+    const update = { ...review };
+    return await ReviewSchemaModel.findOneAndUpdate(filter, update);
+  }
+
+  async deleteReview(review_id: string): Promise<IReview> {
+    const filter = { _id: review_id };
+    return await ReviewSchemaModel.findOneAndDelete(filter);
+  }
 }
 
 export default new ReviewModel();

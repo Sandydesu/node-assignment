@@ -16,4 +16,9 @@ export const SUCCESS_MSGS = {
   CreateBook: 'Successfully created a new book',
   UpdateBook: 'Successfully updated a book',
   DeleteBook: 'Successfully deleted a book',
+  Reviews: 'Successfully returned a list of reviews',
+  ReviewById: 'Successfully returned a review',
+  CreateReview: 'Successfully created a review',
+  UpdateReview: 'Sucessfully updated review',
+  DeleteReview: 'Successfully deleted a review',
 };
