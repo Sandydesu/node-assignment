@@ -3,7 +3,7 @@ import { createValidator } from 'express-joi-validation';
 
 import { BookService } from '../services';
 
-import { bookPostReqSchema, bookReqParamsSchema, bookUpdateReqSchema } from '../validators/request.validator';
+import { bookPostReqSchema, bookReqParamsSchema, bookUpdateReqSchema } from '../validators/book-request';
 
 const router = Router();
 const validator = createValidator({ passError: true });

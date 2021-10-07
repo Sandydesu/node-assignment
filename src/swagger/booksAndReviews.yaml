@@ -1,0 +1,725 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: BOOKS API
+  description: Books details
+tags:
+- name: Books
+  description: Everything about books
+- name: Book
+  description: Operations about book
+- name: Reviews
+  description: Everything about Reviews
+- name: Review
+  description: Operations about Review
+paths:
+  /books:
+    get:
+      tags:
+      - Books
+      description: Allow users to get books
+      security:
+        - bearerAuth: []
+      parameters: 
+      - in: header
+        name: Transaction-Id
+        description: A unique id for every transaction chain
+        required: true
+        schema:
+          type: string
+          example: 123456789
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/book'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+                
+    post:
+      tags:
+      - Books
+      description: Allow users to create a book
+      security:
+        - bearerAuth: []
+      parameters: 
+      - in: header
+        name: Transaction-Id
+        description: A unique id for every transaction chain
+        required: true
+        schema:
+          type: string
+          example: 123456789
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/book'
+      responses:
+        '201':
+          description: Successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: B10001
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+                
+
+  /books/{book_id}:
+    get:
+      tags:
+      - Book
+      description: Allow users to get book based on book id
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Transaction-Id
+          description: A unique id for every transaction chain
+          required: true
+          schema:
+            type: string
+            example: 123456789
+        - in: path
+          name: book_id
+          required: true
+          description: Returns book by book_id
+          schema:
+            type: string
+            example: B10001
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/book'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'  
+    put:
+      tags:
+      - Book
+      description: Update book details
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Transaction-Id
+          description: A unique id for every transaction chain
+          required: true
+          schema:
+            type: string
+            example: 123456789
+        - in: path
+          name: book_id
+          required: true
+          description: Returns book by book_id
+          schema:
+            type: string
+            example: B10001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/book'
+      responses:
+        '204':
+          description: Updated Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedResponse'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+    delete:
+      tags:
+      - Book
+      description: Deleting book
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Transaction-Id
+          description: A unique id for every transaction chain
+          required: true
+          schema:
+            type: string
+            example: 123456789
+        - in: path
+          name: book_id
+          required: true
+          description: Returns book by book_id
+          schema:
+            type: string
+            example: B10001
+      responses:
+        '204':
+          description: Deleted Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedResponse'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+           
+ 
+  /books/{book_id}/reviews:
+    get:
+      tags: 
+      - Reviews
+      description: Allow users to get review of perticular book
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Transaction-Id
+          description: A unique id for every transaction chain
+          required: true
+          schema:
+            type: string
+            example: 123456789
+        - in: path
+          name: book_id
+          required: true
+          description: Get reviews by book_id
+          schema:
+            type: string
+            example: B10001
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/review'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+    post:
+      tags:
+      - Reviews
+      description: Allow users to create review
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Transaction-Id
+          description: A unique id for every transaction chain
+          required: true
+          schema:
+            type: string
+            example: 123456789
+        - in: path
+          name: book_id
+          required: true
+          description: Get reviews by book_id
+          schema:
+            type: string
+            example: B10001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/review'
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: 768
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+                
+
+  /books/{book_id}/reviews/{review_id}:
+    get:
+      tags:
+      - Review
+      description: Allow user to get perticular review id
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Transaction-Id
+          description: A unique id for every transaction chain
+          required: true
+          schema:
+            type: string
+            example: 123456789
+        - in: path
+          name: book_id
+          required: true
+          description: Get reviews by book_id
+          schema:
+            type: string
+            example: B10001
+        - in: path
+          name: review_id
+          required: true
+          description: Get review
+          schema:
+            type: string
+            example: 768
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/review'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+    put:
+      tags:
+      - Review
+      description: Update review
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Transaction-Id
+          description: A unique id for every transaction chain
+          required: true
+          schema:
+            type: string
+            example: 123456789
+        - in: path
+          name: book_id
+          required: true
+          description: Get reviews by book_id
+          schema:
+            type: string
+            example: B10001
+        - in: path
+          name: review_id
+          required: true
+          description: Get review
+          schema:
+            type: string
+            example: 768
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/review'
+      responses:
+        '204':
+          description: Updated Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedResponse'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+    delete:
+      tags:
+      - Review
+      description: Delete review
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Transaction-Id
+          description: A unique id for every transaction chain
+          required: true
+          schema:
+            type: string
+            example: 123456789
+        - in: path
+          name: book_id
+          required: true
+          description: Get reviews by book_id
+          schema:
+            type: string
+            example: B10001
+        - in: path
+          name: review_id
+          required: true
+          description: Get review
+          schema:
+            type: string
+            example: 768
+      responses:
+        '204':
+          description: Deleted Sucessfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedResponse'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+components:
+  securitySchemes:
+    bearerAuth:           
+      type: http
+      scheme: bearer
+      bearerFormat: JWT  
+  schemas:
+    book:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: B10001
+        name:
+          type: string
+          example: The Adventures of Tom Sawyer
+        author:
+          type: array
+          items:
+            type: string
+          example: ["Mark Twain"]
+        price:
+          type: string
+          example: $4.90
+        reviews:
+          type: array
+          items:
+            type: object
+            properties:
+              review_id:
+                type: string
+                example: 768
+              reviwer:
+                type: string
+                example: Krish
+              message:
+                type: string
+                example: This is indeed an amazing book.
+        publisher:
+          type: object
+          properties:
+            publisher_id:
+              type: string
+              example: P1122
+            name:
+              type: string
+              example: Pearson
+            location:
+              type: string
+              example: London
+    review:
+      type: object
+      properties:
+        review_id:
+          type: string
+          example: 768
+        reviwer:
+          type: string
+          example: Krish
+        message:
+          type: string
+          example: This is indeed an amazing book.
+    UnauthorizedError:
+      description: Access token is missing or invalid
+      type: object
+      properties:
+        message:
+          type: string
+          example: Access token invalid
+        statusCode:
+          type: number
+          example: 401
+        errorType:
+          type: string
+          example: 401 Unauthorized
+    BadRequest:
+      description: Bad Request
+      type: object
+      properties:
+        message:
+          type: string
+          example: invalid request message framing
+        statusCode:
+          type: number
+          example: 400
+        errorType:
+          type: string
+          example: 400 Bad Request
+    NotFound:
+      description: Not Found
+      type: object
+      properties:
+        message:
+          type: string
+          example: Url not found
+        statusCode:
+          type: number
+          example: 404
+        errorType:
+          type: string
+          example: 404 Not Found
+    InternalServerError:
+      description: Not Found
+      type: object
+      properties:
+        message:
+          type: string
+          example: Internal Server Error
+        statusCode:
+          type: number
+          example: 500
+        errorType:
+          type: string
+          example: 500 Internal Server Error
+    UpdatedResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Sucessfully updated
+        statusCode:
+          type: string
+          example: 204
+    DeletedResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Sucessfully removed
+        statusCode:
+          type: string
+          example: 204
+
+security:
+  - bearerAuth: []
