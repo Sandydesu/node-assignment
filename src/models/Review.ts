@@ -17,14 +17,6 @@ class ReviewModel {
   async createReviews(reviews: IReview[]): Promise<IReview[]> {
     return await ReviewSchemaModel.insertMany(reviews);
   }
-
-  // async updateReview(review: IReview): Promise<IReview> {
-  //   return await ReviewSchemaModel.updateOne(review);
-  // }
-
-  // async updateReviews(reviews: IReview[]): Promise<IReview[]> {
-  //   return await ReviewSchemaModel.updateMany(reviews);
-  // }
 }
 
 export default new ReviewModel();

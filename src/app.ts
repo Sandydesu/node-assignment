@@ -4,6 +4,7 @@ import * as bodyParser from 'body-parser';
 import { DBService } from './services';
 
 import routes from './api-routes';
+
 import { logger, HttpHandler } from './helper';
 
 export default class App {
