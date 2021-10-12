@@ -3,6 +3,8 @@ import * as bodyParser from 'body-parser';
 
 import { DBService } from './services';
 
+import errorMiddleware from './middlewares/error';
+
 import routes from './api-routes';
 
 import { logger, HttpHandler } from './helper';
@@ -17,10 +19,19 @@ export default class App {
 
   init(): void {
     this.connectToDb();
-    this.app.use(bodyParser.json());
-    this.app.use(bodyParser.urlencoded());
+    this.initilizeBodyParser();
+    this.initializeErrorHandling();
     this.routes(routes);
     this.app.listen(this.port, () => logger.console.info(`Server started at http://localhost:${this.port}`));
+  }
+
+  private initilizeBodyParser() {
+    this.app.use(bodyParser.json());
+    this.app.use(bodyParser.urlencoded());
+  }
+
+  private initializeErrorHandling() {
+    this.app.use(errorMiddleware);
   }
 
   routes(routes: Router): void {
