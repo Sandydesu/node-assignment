@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 
 import { HttpHandler } from '../helper';
 
@@ -12,7 +12,7 @@ import { ERROR_MSGS, SUCCESS_MSGS } from '../constants/message.constants';
 import { STATUS_CODES } from '../constants/api.constants';
 
 class BookService {
-  async getBooks(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async getBooks(req: Request, res: Response): Promise<void> {
     try {
       const books = await BookModel.getBooks();
       const results = await Promise.all(
@@ -46,14 +46,14 @@ class BookService {
       if (results.length) {
         HttpHandler.send(req, res, SUCCESS_MSGS.Books, results);
       } else {
-        HttpHandler.sendError(STATUS_CODES.NotFound, `Books are ${ERROR_MSGS.NotAvailable}`, next);
+        HttpHandler.sendError(req, res, STATUS_CODES.NotFound, `Books are ${ERROR_MSGS.NotAvailable}`);
       }
     } catch (err) {
-      return HttpHandler.sendError(STATUS_CODES.BadRequest, err.message, next);
+      HttpHandler.sendError(req, res, STATUS_CODES.BadRequest, err.message);
     }
   }
 
-  async getBook(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async getBook(req: Request, res: Response): Promise<void> {
     try {
       const book = await BookModel.getBook(req.params.book_id);
       const b = {
@@ -80,14 +80,14 @@ class BookService {
       if (b.book_id) {
         HttpHandler.send(req, res, SUCCESS_MSGS.BooksById, b);
       } else {
-        HttpHandler.sendError(STATUS_CODES.NotFound, ERROR_MSGS.InvalidBookId, next);
+        HttpHandler.sendError(req, res, STATUS_CODES.NotFound, ERROR_MSGS.InvalidBookId);
       }
     } catch (err) {
-      return HttpHandler.sendError(STATUS_CODES.BadRequest, err.message, next);
+      HttpHandler.sendError(req, res, STATUS_CODES.BadRequest, err.message);
     }
   }
 
-  async createBook(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async createBook(req: Request, res: Response): Promise<void> {
     try {
       const book = { ...req.body };
       const review = await ReviewModel.createReviews(book.reviews);
@@ -99,14 +99,14 @@ class BookService {
       if (results._id) {
         HttpHandler.send(req, res, SUCCESS_MSGS.CreateBook, results);
       } else {
-        HttpHandler.sendError(STATUS_CODES.Conflict, `${ERROR_MSGS.UnabletoCreate} book`, next);
+        HttpHandler.sendError(req, res, STATUS_CODES.Conflict, `${ERROR_MSGS.UnabletoCreate} book`);
       }
     } catch (err) {
-      return HttpHandler.sendError(STATUS_CODES.BadRequest, err.message, next);
+      HttpHandler.sendError(req, res, STATUS_CODES.BadRequest, err.message);
     }
   }
 
-  async updateBook(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async updateBook(req: Request, res: Response): Promise<void> {
     try {
       const book = { ...req.body };
       const id = req.params.book_id;
@@ -119,24 +119,24 @@ class BookService {
       if (updatedBook._id) {
         HttpHandler.send(req, res, SUCCESS_MSGS.UpdateBook, updatedBook);
       } else {
-        HttpHandler.sendError(STATUS_CODES.Conflict, `${ERROR_MSGS.Unabletoupdate} book`, next);
+        HttpHandler.sendError(req, res, STATUS_CODES.Conflict, `${ERROR_MSGS.Unabletoupdate} book`);
       }
     } catch (err) {
-      return HttpHandler.sendError(STATUS_CODES.BadRequest, err.message, next);
+      HttpHandler.sendError(req, res, STATUS_CODES.BadRequest, err.message);
     }
   }
 
-  async deleteBook(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async deleteBook(req: Request, res: Response): Promise<void> {
     try {
       const id = req.params.book_id;
       const deletedBook = await BookModel.deleteBook(id);
       if (deletedBook._id) {
         HttpHandler.send(req, res, SUCCESS_MSGS.DeleteBook, deletedBook);
       } else {
-        HttpHandler.sendError(STATUS_CODES.Conflict, `${ERROR_MSGS.UnabletoDelete} book`, next);
+        HttpHandler.sendError(req, res, STATUS_CODES.Conflict, `${ERROR_MSGS.UnabletoDelete} book`);
       }
     } catch (err) {
-      return HttpHandler.sendError(STATUS_CODES.InternalServerError, err.message, next);
+      HttpHandler.sendError(req, res, STATUS_CODES.InternalServerError, err.message);
     }
   }
 }

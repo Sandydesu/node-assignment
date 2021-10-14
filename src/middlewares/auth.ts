@@ -18,7 +18,7 @@ const authMiddleWare = (req: Request, res: Response, next: NextFunction) => {
   const authToken = authorization.match(/Bearer (.+)/);
 
   if (!authToken) {
-    return HttpHandler.sendError(STATUS_CODES.Unauthorized, ERROR_MSGS.Unauthorized, next);
+    return HttpHandler.sendError(req, res, STATUS_CODES.Unauthorized, ERROR_MSGS.Unauthorized);
   }
 
   const accessToken = authToken[1];
@@ -29,7 +29,7 @@ const authMiddleWare = (req: Request, res: Response, next: NextFunction) => {
       return next();
     })
     .catch((err) => {
-      return HttpHandler.sendError(STATUS_CODES.Unauthorized, err, next);
+      return HttpHandler.sendError(req, res, STATUS_CODES.Unauthorized, err);
     });
 };
 

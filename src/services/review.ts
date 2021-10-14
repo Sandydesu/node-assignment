@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 
 import { HttpHandler } from '../helper';
 
@@ -9,7 +9,7 @@ import { ERROR_MSGS, SUCCESS_MSGS } from '../constants/message.constants';
 import { STATUS_CODES } from '../constants/api.constants';
 
 class ReviewService {
-  async getAllReviewsByBook(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async getAllReviewsByBook(req: Request, res: Response): Promise<void> {
     try {
       const book = await BookModel.getReviewsByBook(req.params.book_id);
       const reviews = await ReviewModel.getReviews(
@@ -20,31 +20,32 @@ class ReviewService {
         HttpHandler.send(req, res, SUCCESS_MSGS.Reviews, reviews);
       } else {
         HttpHandler.sendError(
+          req,
+          res,
           STATUS_CODES.NotFound,
           `Reviews are ${ERROR_MSGS.NotAvailable} for this ${req.params.book_id}`,
-          next,
         );
       }
     } catch (err) {
-      return HttpHandler.sendError(STATUS_CODES.BadRequest, err.message, next);
+      HttpHandler.sendError(req, res, STATUS_CODES.BadRequest, err.message);
     }
   }
 
-  async createReview(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async createReview(req: Request, res: Response): Promise<void> {
     try {
       const review = await ReviewModel.createReview(req.body);
       const book = await BookModel.updateReview(req.params.book_id, review._id);
       if (book._id && review._id) {
         HttpHandler.send(req, res, SUCCESS_MSGS.CreateReview, review);
       } else {
-        HttpHandler.sendError(STATUS_CODES.Conflict, `${ERROR_MSGS.UnabletoCreate} review`, next);
+        HttpHandler.sendError(req, res, STATUS_CODES.Conflict, `${ERROR_MSGS.UnabletoCreate} review`);
       }
     } catch (err) {
-      return HttpHandler.sendError(STATUS_CODES.BadRequest, err.message, next);
+      HttpHandler.sendError(req, res, STATUS_CODES.BadRequest, err.message);
     }
   }
 
-  async getReview(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async getReview(req: Request, res: Response): Promise<void> {
     try {
       const book = await BookModel.getReviewsByBook(req.params.book_id);
       if (book.reviews.indexOf(req.params.review_id) >= 0) {
@@ -52,17 +53,27 @@ class ReviewService {
         if (review._id) {
           HttpHandler.send(req, res, SUCCESS_MSGS.ReviewById, review);
         } else {
-          HttpHandler.sendError(STATUS_CODES.NotFound, `Reviews are ${ERROR_MSGS.NotAvailable} for this book id`, next);
+          HttpHandler.sendError(
+            req,
+            res,
+            STATUS_CODES.NotFound,
+            `Reviews are ${ERROR_MSGS.NotAvailable} for this book id`,
+          );
         }
       } else {
-        HttpHandler.sendError(STATUS_CODES.NotFound, `Reviews are ${ERROR_MSGS.NotAvailable} for this book id`, next);
+        HttpHandler.sendError(
+          req,
+          res,
+          STATUS_CODES.NotFound,
+          `Reviews are ${ERROR_MSGS.NotAvailable} for this book id`,
+        );
       }
     } catch (err) {
-      return HttpHandler.sendError(STATUS_CODES.BadRequest, err.message, next);
+      HttpHandler.sendError(req, res, STATUS_CODES.BadRequest, err.message);
     }
   }
 
-  async updateReview(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async updateReview(req: Request, res: Response): Promise<void> {
     try {
       const book = await BookModel.getReviewsByBook(req.params.book_id);
       if (book.reviews.indexOf(req.params.review_id) >= 0) {
@@ -71,17 +82,22 @@ class ReviewService {
         if (review._id) {
           HttpHandler.send(req, res, SUCCESS_MSGS.UpdateReview, review);
         } else {
-          HttpHandler.sendError(STATUS_CODES.Conflict, `${ERROR_MSGS.Unabletoupdate} review`, next);
+          HttpHandler.sendError(req, res, STATUS_CODES.Conflict, `${ERROR_MSGS.Unabletoupdate} review`);
         }
       } else {
-        HttpHandler.sendError(STATUS_CODES.NotFound, `Reviews are ${ERROR_MSGS.NotAvailable} for this book id`, next);
+        HttpHandler.sendError(
+          req,
+          res,
+          STATUS_CODES.NotFound,
+          `Reviews are ${ERROR_MSGS.NotAvailable} for this book id`,
+        );
       }
     } catch (err) {
-      return HttpHandler.sendError(STATUS_CODES.BadRequest, err.message, next);
+      HttpHandler.sendError(req, res, STATUS_CODES.BadRequest, err.message);
     }
   }
 
-  async deleteReview(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async deleteReview(req: Request, res: Response): Promise<void> {
     try {
       const book = await BookModel.getReviewsByBook(req.params.book_id);
       if (book.reviews.indexOf(req.params.review_id) >= 0) {
@@ -90,13 +106,18 @@ class ReviewService {
         if (book._id && review._id) {
           HttpHandler.send(req, res, SUCCESS_MSGS.DeleteReview, review);
         } else {
-          HttpHandler.sendError(STATUS_CODES.Conflict, `${ERROR_MSGS.UnabletoDelete} review`, next);
+          HttpHandler.sendError(req, res, STATUS_CODES.Conflict, `${ERROR_MSGS.UnabletoDelete} review`);
         }
       } else {
-        HttpHandler.sendError(STATUS_CODES.NotFound, `Reviews are ${ERROR_MSGS.NotAvailable} for this book id`, next);
+        HttpHandler.sendError(
+          req,
+          res,
+          STATUS_CODES.NotFound,
+          `Reviews are ${ERROR_MSGS.NotAvailable} for this book id`,
+        );
       }
     } catch (err) {
-      return HttpHandler.sendError(STATUS_CODES.BadRequest, err.message, next);
+      HttpHandler.sendError(req, res, STATUS_CODES.BadRequest, err.message);
     }
   }
 }

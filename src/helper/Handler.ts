@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { IncomingHttpHeaders } from 'http';
 
 import { HttpError, logger } from './index';
@@ -7,8 +7,9 @@ import { HttpError, logger } from './index';
 import { STATUS_CODES } from '../constants/api.constants';
 
 class HttpHandler {
-  sendError(status: number, message: string, next: NextFunction) {
-    return next(new HttpError(status, message));
+  sendError(req: Request, res: Response, status: number, message: string) {
+    this.logError(req, message, status);
+    return res.status(status).send(new HttpError(status, message));
   }
 
   send(req: Request, res: Response, message: string, data?: any) {
@@ -30,13 +31,14 @@ class HttpHandler {
     });
   }
 
-  logError(req: Request, error: any | HttpError) {
+  logError(req: Request, error: any | HttpError, status?: number) {
     logger.app.error(`Error occured at ${req.method} ${req.path}`, {
       transactionId: this.getTransId(req.headers),
       host: req.hostname,
       url: req.url,
       reqBody: req.body,
       error: error,
+      status: status,
     });
   }
 

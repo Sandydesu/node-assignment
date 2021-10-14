@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import * as btoa from 'btoa';
 import * as request from 'request-promise';
 
@@ -8,7 +8,7 @@ import { oktaConfig } from '../constants/okta.constants';
 import { STATUS_CODES } from '../constants/api.constants';
 
 class AuthenticateService {
-  public async getAccessToken(req: Request, res: Response, next: NextFunction) {
+  public async getAccessToken(req: Request, res: Response) {
     try {
       const token = btoa(`${oktaConfig.clientId}:${oktaConfig.clientSecret}`);
       const auth = await request({
@@ -25,7 +25,7 @@ class AuthenticateService {
       });
       return res.status(200).json(auth);
     } catch (err) {
-      HttpHandler.sendError(STATUS_CODES.InternalServerError, err.message, next);
+      HttpHandler.sendError(req, res, STATUS_CODES.InternalServerError, err.message);
     }
   }
 }
