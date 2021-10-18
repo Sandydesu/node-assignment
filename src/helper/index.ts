@@ -1,4 +1,4 @@
-import HttpHandler from './handler';
+import HttpHandler from './Handler';
 import HttpError from './HttpError';
 import { logger } from './log4j';
 

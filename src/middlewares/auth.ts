@@ -13,24 +13,30 @@ const oktaJwtVerifier = new OktaJwtVerifier({
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const authMiddleWare = (req: Request, res: Response, next: NextFunction) => {
-  const { authorization } = req.headers;
+  /** byPassAuth Only for test cases */
+  const { byPassAuth } = req.query;
+  if (byPassAuth) {
+    return next();
+  } else {
+    const { authorization } = req.headers;
 
-  const authToken = authorization.match(/Bearer (.+)/);
+    const authToken = authorization.match(/Bearer (.+)/);
 
-  if (!authToken) {
-    return HttpHandler.sendError(req, res, STATUS_CODES.Unauthorized, ERROR_MSGS.Unauthorized);
+    if (!authToken) {
+      return HttpHandler.sendError(req, res, STATUS_CODES.Unauthorized, ERROR_MSGS.Unauthorized);
+    }
+
+    const accessToken = authToken[1];
+    return oktaJwtVerifier
+      .verifyAccessToken(accessToken, oktaConfig.audience)
+      .then((token) => {
+        req['authorization'] = token;
+        return next();
+      })
+      .catch((err) => {
+        return HttpHandler.sendError(req, res, STATUS_CODES.Unauthorized, err);
+      });
   }
-
-  const accessToken = authToken[1];
-  return oktaJwtVerifier
-    .verifyAccessToken(accessToken, oktaConfig.audience)
-    .then((token) => {
-      req['authorization'] = token;
-      return next();
-    })
-    .catch((err) => {
-      return HttpHandler.sendError(req, res, STATUS_CODES.Unauthorized, err);
-    });
 };
 
 export default authMiddleWare;
