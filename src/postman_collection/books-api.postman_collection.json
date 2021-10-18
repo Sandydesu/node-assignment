@@ -1,0 +1,354 @@
+{
+	"info": {
+		"_postman_id": "be415334-fdce-4360-8545-dc0e8216a7c2",
+		"name": "books-api",
+		"description": "Books Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Books",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "transaction-id",
+						"value": "{{transaction-id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/books",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Book",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "transaction-id",
+						"value": "{{transaction-id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/books/{{book_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"books",
+						"{{book_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Book",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "transaction-id",
+						"value": "{{transaction-id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"five Book\",\r\n    \"author\": [\r\n        \"five book author\"\r\n    ],\r\n    \"price\": \"$1.99\",\r\n    \"reviews\": [\r\n        {\r\n            \"reviewer\": \"five\",\r\n            \"message\": \"This is indeed an amazing five book.\"\r\n        }\r\n    ],\r\n    \"publisher\": {\r\n        \"name\": \"five\",\r\n        \"location\": \"Hyd\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/books",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateBook",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "transaction-id",
+						"value": "{{transaction-id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"book_id\": \"{{book_id}}\",\r\n    \"name\": \"four Book\",\r\n    \"author\": [\r\n        \"four book author\"\r\n    ],\r\n    \"price\": \"$1.49\",\r\n    \"publisher\": {\r\n        \"name\": \"four\",\r\n        \"location\": \"Hyd2\",\r\n        \"publisher_id\": \"615ed72c42dc405c8875d04e\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/books/{{book_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"books",
+						"{{book_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Book",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "transaction-id",
+						"value": "{{transaction-id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/books/{{book_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"books",
+						"{{book_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Reviews for book",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "transaction-id",
+						"value": "{{transaction-id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/books/{{book_id}}/reviews",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"books",
+						"{{book_id}}",
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Review for book",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "transaction-id",
+						"value": "{{transaction-id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/books/{{book_id}}/reviews/{{review_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"books",
+						"{{book_id}}",
+						"reviews",
+						"{{review_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create review for book",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "transaction-id",
+						"value": "{{transaction-id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"reviewer\": \"post 2\",\r\n    \"message\": \"This is indeed an amazing First book post2.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/books/{{book_id}}/reviews",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"books",
+						"{{book_id}}",
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update review for book",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "transaction-id",
+						"value": "{{transaction-id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"reviewer\": \"four-update\",\r\n    \"message\": \"This is indeed an amazing two book.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/books/{{book_id}}/reviews/{{review_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"books",
+						"{{book_id}}",
+						"reviews",
+						"{{review_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete review for book",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "transaction-id",
+						"value": "{{transaction-id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/books/{{book_id}}/reviews/{{review_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"books",
+						"{{book_id}}",
+						"reviews",
+						"{{review_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const JSONdata = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"AccessToken\", JSONdata.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/token",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{AccessToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

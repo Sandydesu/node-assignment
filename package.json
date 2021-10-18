@@ -10,7 +10,9 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "prettier": "prettier *.ts",
     "prettier:fix": "prettier --write *.ts",
-    "start:dev": "nodemon -e ts dist/index.js"
+    "start:dev": "nodemon -e ts dist/index.js",
+    "test": "jest",
+    "coverage": "jest --coverage"
   },
   "nodemonConfig": {
     "ignore": [
@@ -24,13 +26,18 @@
   "license": "ISC",
   "devDependencies": {
     "@types/express": "^4.17.13",
+    "@types/jest": "^27.0.2",
     "@types/node": "^16.4.0",
+    "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "4.28.4",
     "@typescript-eslint/parser": "4.28.4",
     "eslint": "7.31.0",
     "eslint-config-airbnb": "18.2.1",
+    "jest": "^27.2.5",
     "nodemon": "^2.0.12",
     "prettier": "2.3.2",
+    "supertest": "^6.1.6",
+    "ts-jest": "^27.0.5",
     "typescript": "^4.3.5"
   },
   "dependencies": {
