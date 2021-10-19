@@ -10,5 +10,14 @@ export const createReview = () => {
   };
 };
 
+export const invalidReviewDetails = () => {
+  const review = { ...ReviewDetails };
+  delete review._id;
+  delete review.message;
+  return {
+    ...review,
+  };
+}
+
 export const bookDetails = BookDetails;
 export const reviewDetails = ReviewDetails;

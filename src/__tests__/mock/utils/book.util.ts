@@ -35,6 +35,24 @@ export const updateBook = () => {
   };
 };
 
+export const inValidBookDetials = () => {
+  const book = { ...BookDetails };
+  const review = { ...ReviewDetails };
+  const publish = { ...PublishDetails };
+
+  delete book._id;
+  delete review._id;
+  delete review.message;
+  delete publish._id;
+  delete publish.location;
+
+  return {
+    ...book,
+    reviews: [{ ...review }],
+    publisher: { ...publish },
+  };
+};
+
 export const bookDetails = BookDetails;
 export const reviewDetails = ReviewDetails;
 export const publishDetails = PublishDetails;
