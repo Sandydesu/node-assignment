@@ -22,6 +22,12 @@ npm run tsc
 npm run start:dev
 ```
 
+For test cases
+
+```sh
+npm run coverage
+```
+
 Verify in Postman
 
 ```sh
