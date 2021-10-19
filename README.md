@@ -31,7 +31,7 @@ npm run coverage
 Verify in Postman
 
 ```sh
-127.0.0.1:3000
+127.0.0.1:3000   for localhost
 or
-localhost:3000
+https://book-sample-nodejs-application.herokuapp.com/
 ```
